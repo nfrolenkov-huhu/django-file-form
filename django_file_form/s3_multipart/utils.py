@@ -37,6 +37,12 @@ def get_secret_access_key():
     ) or lookup_env(["AWS_S3_SECRET_ACCESS_KEY", "AWS_SECRET_ACCESS_KEY"])
 
 
+def get_session_token():
+    return setting("AWS_SESSION_TOKEN", setting("AWS_S3_SESSION_TOKEN")) or lookup_env(
+        ["AWS_SESSION_TOKEN", "AWS_S3_SESSION_TOKEN"]
+    )
+
+
 def get_endpoint_url():
     return setting("AWS_S3_ENDPOINT_URL") or lookup_env(
         ["AWS_S3_ENDPOINT_URL", "AWS_ENDPOINT_URL"]
@@ -59,6 +65,7 @@ def get_client():
                 endpoint_url=get_endpoint_url(),
                 aws_access_key_id=get_access_key_id(),
                 aws_secret_access_key=get_secret_access_key(),
+                aws_session_token=get_session_token(),
                 config=Config(
                     signature_version=signature_version, region_name=region_name
                 ),
